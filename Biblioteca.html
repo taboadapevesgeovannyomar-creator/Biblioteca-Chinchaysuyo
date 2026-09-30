@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca — Control de Préstamos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+<link rel="stylesheet" href="diseño.css">
+</head>
+<body>
+<div class="layout">
+
+  
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+<div class="chinchaysuyo-logo">
+  <img src="imagenes/images.png" alt="Chinchaysuyo">
+</div>
+      <h2><i class="bi bi-book-half"></i> <span>Biblioteca</span></h2>
+      <p>Control de préstamos</p>
+    </div>
+    <nav>
+      <div class="nav-label">Primaria</div>
+      <div class="nav-item pri-act" id="nav-primaria" onclick="mostrarPagina('primaria')">
+        <i class="bi bi-mortarboard"></i> <span>Préstamos</span>
+      </div>
+      <hr class="nav-divider">
+      <div class="nav-label">Secundaria</div>
+      <div class="nav-item" id="nav-secundaria" onclick="mostrarPagina('secundaria')">
+        <i class="bi bi-building"></i> <span>Préstamos</span>
+      </div>
+      <hr class="nav-divider">
+      <div class="nav-label">General</div>
+      <div class="nav-item" id="nav-historial" onclick="mostrarPagina('historial')">
+        <i class="bi bi-clock-history"></i> <span>Historial</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">v2.0 · Biblioteca</div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbarTitle">Primaria — Préstamos</div>
+        <div class="topbar-sub"   id="topbarSub">Gestiona los préstamos de libros de Primaria</div>
+      </div>
+      <span class="topbar-badge pri" id="topbarBadge">Primaria</span>
+    </div>
+
+    <div class="content">
+
+      <!-- PRIMARIA -->
+      <div class="page active" id="page-primaria">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="lbl">Total</div><div class="val neutral" id="pri-stTotal">0</div></div>
+          <div class="stat-card"><div class="lbl">Activos</div><div class="val warn"    id="pri-stActivos">0</div></div>
+          <div class="stat-card"><div class="lbl">Devueltos</div><div class="val success" id="pri-stDevueltos">0</div></div>
+          <div class="stat-card"><div class="lbl">Atrasados</div><div class="val danger"  id="pri-stAtrasados">0</div></div>
+        </div>
+        <div class="toolbar">
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" id="pri-search" placeholder="Buscar por estudiante o libro…" oninput="filtrar('primaria')">
+          </div>
+          <select class="filter" id="pri-filtroEstado" onchange="filtrar('primaria')">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activo</option>
+            <option value="devuelto">Devuelto</option>
+            <option value="atrasado">Atrasado</option>
+          </select>
+          <button class="btn btn-pri" onclick="abrirModal('primaria')">
+            <i class="bi bi-plus-lg"></i> Nuevo préstamo
+          </button>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Estudiante</th><th>Libro</th><th>Fecha préstamo</th><th>Devolución esperada</th><th>Estado</th><th>Acciones</th></tr></thead>
+              <tbody id="pri-tbody"></tbody>
+            </table>
+          </div>
+          <div class="table-foot" id="pri-tablefoot">Cargando…</div>
+        </div>
+      </div>
+
+      <!-- SECUNDARIA -->
+      <div class="page" id="page-secundaria">
+        <div class="stats-grid">
+          <div class="stat-card"><div class="lbl">Total</div><div class="val neutral" id="sec-stTotal">0</div></div>
+          <div class="stat-card"><div class="lbl">Activos</div><div class="val warn"    id="sec-stActivos">0</div></div>
+          <div class="stat-card"><div class="lbl">Devueltos</div><div class="val success" id="sec-stDevueltos">0</div></div>
+          <div class="stat-card"><div class="lbl">Atrasados</div><div class="val danger"  id="sec-stAtrasados">0</div></div>
+        </div>
+        <div class="toolbar">
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" id="sec-search" placeholder="Buscar por estudiante o libro…" oninput="filtrar('secundaria')">
+          </div>
+          <select class="filter" id="sec-filtroEstado" onchange="filtrar('secundaria')">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activo</option>
+            <option value="devuelto">Devuelto</option>
+            <option value="atrasado">Atrasado</option>
+          </select>
+          <button class="btn btn-sec" onclick="abrirModal('secundaria')">
+            <i class="bi bi-plus-lg"></i> Nuevo préstamo
+          </button>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Estudiante</th><th>Libro</th><th>Fecha préstamo</th><th>Devolución esperada</th><th>Estado</th><th>Acciones</th></tr></thead>
+              <tbody id="sec-tbody"></tbody>
+            </table>
+          </div>
+          <div class="table-foot" id="sec-tablefoot">Cargando…</div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL -->
+      <div class="page" id="page-historial">
+        <div class="toolbar">
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" id="his-search" placeholder="Buscar en historial…" oninput="filtrarHistorial()">
+          </div>
+          <select class="filter" id="his-filtroNivel" onchange="filtrarHistorial()">
+            <option value="">Todos los niveles</option>
+            <option value="primaria">Primaria</option>
+            <option value="secundaria">Secundaria</option>
+          </select>
+        </div>
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Nivel</th><th>Estudiante</th><th>Libro</th><th>Préstamo</th><th>Dev. esperada</th><th>Dev. real</th><th>Estado libro</th><th>Estado</th></tr></thead>
+              <tbody id="his-tbody"></tbody>
+            </table>
+          </div>
+          <div class="table-foot" id="his-tablefoot">Sin registros</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PRÉSTAMO -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Nuevo préstamo</div>
+        <div class="modal-sub">Completa los datos del formulario</div>
+      </div>
+      <button class="btn-close" onclick="cerrarModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="fId">
+      <input type="hidden" id="fNivel">
+      <div class="nivel-banner pri" id="nivelBanner">
+        <i class="bi bi-mortarboard"></i> <span id="nivelBannerTxt">Primaria</span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Nombre de la estudiante <span class="req">*</span></label>
+          <input type="text" id="fNombre" placeholder="Ej: María García">
+          <div class="field-err" id="eNombre"></div>
+        </div>
+        <div class="form-group">
+          <label>Grado <span class="req">*</span></label>
+          <select id="fGrado"><option value="">— Seleccionar —</option></select>
+          <div class="field-err" id="eGrado"></div>
+        </div>
+        <div class="form-group">
+          <label>Sección <span class="req">*</span></label>
+          <select id="fSeccion">
+            <option value="">— Seleccionar —</option>
+            <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+          </select>
+          <div class="field-err" id="eSeccion"></div>
+        </div>
+        <div class="form-group full">
+          <label>Título del libro <span class="req">*</span></label>
+          <input type="text" id="fLibro" placeholder="Ej: El Principito">
+          <div class="field-err" id="eLibro"></div>
+        </div>
+        <div class="form-group">
+          <label>Fecha de préstamo <span class="req">*</span></label>
+          <input type="date" id="fFechaPrestamo">
+          <div class="field-err" id="eFechaPrestamo"></div>
+        </div>
+        <div class="form-group">
+          <label>Fecha de devolución <span class="req">*</span></label>
+          <input type="date" id="fFechaDevolucion">
+          <div class="field-err" id="eFechaDevolucion"></div>
+        </div>
+        <div class="form-group full">
+          <label>Observaciones</label>
+          <input type="text" id="fObs" placeholder="Notas adicionales (opcional)">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-2nd" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn btn-pri" id="btnGuardar" onclick="guardar()">
+        <i class="bi bi-check-lg"></i> Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DEVOLUCIÓN -->
+<div class="overlay" id="devOverlay">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" style="color:var(--success)"><i class="bi bi-arrow-return-left"></i> Registrar devolución</div>
+        <div class="modal-sub" id="devMsg"></div>
+      </div>
+      <button class="btn-close" onclick="cerrarDev()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Estado del libro al devolver</label>
+        <select id="devEstado">
+          <option value="bueno">Bueno</option>
+          <option value="regular">Regular</option>
+          <option value="dañado">Dañado</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-top:12px">
+        <label>Observaciones</label>
+        <input type="text" id="devObs" placeholder="Notas sobre el estado del libro…">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-2nd" onclick="cerrarDev()">Cancelar</button>
+      <button class="btn" style="background:var(--success);color:#fff" onclick="confirmarDev()">
+        <i class="bi bi-check-lg"></i> Confirmar devolución
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ELIMINAR -->
+<div class="overlay" id="delOverlay">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div class="modal-title" style="color:var(--danger)"><i class="bi bi-trash3"></i> Eliminar préstamo</div>
+      <button class="btn-close" onclick="cerrarDel()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:var(--text2)">¿Estás seguro de que deseas eliminar este préstamo? Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-2nd" onclick="cerrarDel()">Cancelar</button>
+      <button class="btn" style="background:var(--danger);color:#fff" onclick="confirmarDel()">
+        <i class="bi bi-trash3"></i> Eliminar
+      </button>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn-logout" onclick="cerrarSesion()">
+    <i class="bi bi-box-arrow-left"></i> Cerrar sesión
+</button>
+
+<div id="toastContainer"></div>
+
+<script>
+'use strict';
+function cerrarSesion() {
+    window.location.href = "login.html";
+}
+const STORAGE_KEY = 'biblioteca_v3';
+let prestamos = [];
+let devId = null, delId = null, paginaActual = 'primaria';
+
+const GRADOS = {
+  primaria:   ['1°','2°','3°','4°','5°','6°'],
+  secundaria: ['1° Sec','2° Sec','3° Sec','4° Sec','5° Sec']
+};
+
+function cargarDatos() {
+  try { prestamos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { prestamos = []; }
+  actualizarEstados();
+  filtrar('primaria');
+  filtrar('secundaria');
+}
+
+function guardarDatos() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(prestamos)); } catch {}
+}
+
+function actualizarEstados() {
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  prestamos.forEach(p => {
+    if (p.estado === 'activo' && new Date(p.fechaDevolucion + 'T00:00:00') < hoy) p.estado = 'atrasado';
+  });
+}
+
+/* ── NAVEGACIÓN ── */
+function mostrarPagina(id) {
+  paginaActual = id;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.className = 'nav-item');
+  const map = { primaria: ['nav-primaria','pri-act','Primaria — Préstamos','Gestiona los préstamos de Primaria','pri','Primaria'],
+                secundaria:['nav-secundaria','sec-act','Secundaria — Préstamos','Gestiona los préstamos de Secundaria','sec','Secundaria'],
+                historial: ['nav-historial','active','Historial completo','Todos los préstamos registrados','gen','General'] };
+  const [navId, cls, title, sub, badgeCls, badgeTxt] = map[id];
+  document.getElementById(navId).classList.add(cls);
+  document.getElementById('topbarTitle').textContent = title;
+  document.getElementById('topbarSub').textContent   = sub;
+  const badge = document.getElementById('topbarBadge');
+  badge.textContent = badgeTxt;
+  badge.className   = 'topbar-badge ' + badgeCls;
+  if (id === 'historial') filtrarHistorial();
+}
+
+/* ── STATS ── */
+function actualizarStats(nivel) {
+  const lista = prestamos.filter(p => p.nivel === nivel);
+  const pfx = nivel === 'primaria' ? 'pri' : 'sec';
+  document.getElementById(pfx+'-stTotal').textContent    = lista.length;
+  document.getElementById(pfx+'-stActivos').textContent  = lista.filter(p=>p.estado==='activo').length;
+  document.getElementById(pfx+'-stDevueltos').textContent= lista.filter(p=>p.estado==='devuelto').length;
+  document.getElementById(pfx+'-stAtrasados').textContent= lista.filter(p=>p.estado==='atrasado').length;
+}
+
+/* ── FILTRAR ── */
+function filtrar(nivel) {
+  actualizarStats(nivel);
+  const pfx = nivel === 'primaria' ? 'pri' : 'sec';
+  const q   = (document.getElementById(pfx+'-search')?.value || '').toLowerCase();
+  const est = document.getElementById(pfx+'-filtroEstado')?.value || '';
+  const lista = prestamos.filter(p =>
+    p.nivel === nivel &&
+    (!q   || p.nombre.toLowerCase().includes(q) || p.libro.toLowerCase().includes(q) || p.grado.toLowerCase().includes(q)) &&
+    (!est || p.estado === est)
+  );
+  renderTabla(lista, pfx);
+}
+
+function renderTabla(lista, pfx) {
+  const tbody = document.getElementById(pfx+'-tbody');
+  document.getElementById(pfx+'-tablefoot').textContent = lista.length + ' registro(s)';
+  if (!lista.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="bi bi-journal-x"></i>No hay préstamos para mostrar</div></td></tr>`;
+    return;
+  }
+  const fmt = d => { if(!d) return '—'; const[y,m,dia]=d.split('-'); return `${dia}/${m}/${y}`; };
+  const bdg = e => `<span class="badge badge-${e}">${e[0].toUpperCase()+e.slice(1)}</span>`;
+  tbody.innerHTML = lista.map((p,i) => `
+    <tr>
+      <td style="color:var(--text3);font-size:12px;font-weight:600">${String(i+1).padStart(2,'0')}</td>
+      <td><div class="nb">${esc(p.nombre)}</div><div class="gm">${esc(p.grado)} — Secc. ${esc(p.seccion)}</div></td>
+      <td>${esc(p.libro)}</td>
+      <td style="font-size:12px">${fmt(p.fechaPrestamo)}</td>
+      <td style="font-size:12px">${fmt(p.fechaDevolucion)}</td>
+      <td>${bdg(p.estado)}</td>
+      <td><div class="act-btns">
+        ${p.estado!=='devuelto'?`<button class="btn-icon dev" onclick="abrirDev(${p.id})" title="Registrar devolución"><i class="bi bi-arrow-return-left"></i></button>`:''}
+        <button class="btn-icon" onclick="editar(${p.id})" title="Editar"><i class="bi bi-pencil"></i></button>
+        <button class="btn-icon del" onclick="pedirDel(${p.id})" title="Eliminar"><i class="bi bi-trash3"></i></button>
+      </div></td>
+    </tr>`).join('');
+}
+
+/* ── HISTORIAL ── */
+function filtrarHistorial() {
+  const q   = (document.getElementById('his-search')?.value || '').toLowerCase();
+  const niv = document.getElementById('his-filtroNivel')?.value || '';
+  const lista = prestamos.filter(p =>
+    (!niv || p.nivel === niv) &&
+    (!q   || p.nombre.toLowerCase().includes(q) || p.libro.toLowerCase().includes(q))
+  );
+  const tbody = document.getElementById('his-tbody');
+  document.getElementById('his-tablefoot').textContent = lista.length + ' registro(s)';
+  if (!lista.length) {
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><i class="bi bi-clock-history"></i>Sin registros aún</div></td></tr>`;
+    return;
+  }
+  const fmt = d => { if(!d) return '—'; const[y,m,dia]=d.split('-'); return `${dia}/${m}/${y}`; };
+  const bdg = e => `<span class="badge badge-${e}">${e[0].toUpperCase()+e.slice(1)}</span>`;
+  const bdgLibro = e => { const m={bueno:'devuelto',regular:'activo','dañado':'atrasado'}; return e?`<span class="badge badge-${m[e]||'activo'}">${e[0].toUpperCase()+e.slice(1)}</span>`:'—'; };
+  tbody.innerHTML = lista.map((p,i) => `
+    <tr>
+      <td style="color:var(--text3);font-size:12px;font-weight:600">${String(i+1).padStart(2,'0')}</td>
+      <td><span class="badge badge-${p.nivel==='primaria'?'pri':'sec'}">${p.nivel==='primaria'?'Primaria':'Secundaria'}</span></td>
+      <td><div class="nb">${esc(p.nombre)}</div><div class="gm">${esc(p.grado)} — Secc. ${esc(p.seccion)}</div></td>
+      <td>${esc(p.libro)}</td>
+      <td style="font-size:12px">${fmt(p.fechaPrestamo)}</td>
+      <td style="font-size:12px">${fmt(p.fechaDevolucion)}</td>
+      <td style="font-size:12px">${fmt(p.fechaDevolucionReal)}</td>
+      <td>${bdgLibro(p.estadoLibro)}</td>
+      <td>${bdg(p.estado)}</td>
+    </tr>`).join('');
+}
+
+/* ── MODAL PRÉSTAMO ── */
+function abrirModal(nivel, p) {
+  nivel = nivel || (p ? p.nivel : 'primaria');
+  limpiarErr();
+  document.getElementById('modalTitle').textContent = p ? 'Editar préstamo' : 'Nuevo préstamo';
+  document.getElementById('fId').value    = p ? p.id : '';
+  document.getElementById('fNivel').value = nivel;
+  document.getElementById('fNombre').value = p ? p.nombre : '';
+  document.getElementById('fSeccion').value = p ? p.seccion : '';
+  document.getElementById('fLibro').value   = p ? p.libro : '';
+  document.getElementById('fFechaPrestamo').value   = p ? p.fechaPrestamo   : new Date().toISOString().split('T')[0];
+  document.getElementById('fFechaDevolucion').value = p ? p.fechaDevolucion : '';
+  document.getElementById('fObs').value = p ? (p.obs||'') : '';
+
+  const banner = document.getElementById('nivelBanner');
+  banner.className = 'nivel-banner ' + (nivel==='primaria'?'pri':'sec');
+  document.getElementById('nivelBannerTxt').textContent = nivel==='primaria' ? '📘 Primaria' : '📗 Secundaria';
+
+  const btn = document.getElementById('btnGuardar');
+  btn.className = 'btn ' + (nivel==='primaria'?'btn-pri':'btn-sec');
+
+  const sel = document.getElementById('fGrado');
+  sel.innerHTML = '<option value="">— Seleccionar —</option>' +
+    GRADOS[nivel].map(g=>`<option${p&&p.grado===g?' selected':''}>${g}</option>`).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('fNombre').focus(), 80);
+}
+
+function cerrarModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+function limpiarErr() {
+  ['eNombre','eGrado','eSeccion','eLibro','eFechaPrestamo','eFechaDevolucion'].forEach(id=>{
+    document.getElementById(id).textContent='';
+  });
+}
+
+function guardar() {
+  limpiarErr();
+  const nivel   = document.getElementById('fNivel').value;
+  const nombre  = document.getElementById('fNombre').value.trim();
+  const grado   = document.getElementById('fGrado').value;
+  const seccion = document.getElementById('fSeccion').value;
+  const libro   = document.getElementById('fLibro').value.trim();
+  const fp      = document.getElementById('fFechaPrestamo').value;
+  const fd      = document.getElementById('fFechaDevolucion').value;
+  const obs     = document.getElementById('fObs').value.trim();
+  let ok = true;
+  if (!nombre)  { document.getElementById('eNombre').textContent  = 'Requerido'; ok=false; }
+  if (!grado)   { document.getElementById('eGrado').textContent   = 'Selecciona el grado'; ok=false; }
+  if (!seccion) { document.getElementById('eSeccion').textContent = 'Selecciona la sección'; ok=false; }
+  if (!libro)   { document.getElementById('eLibro').textContent   = 'Requerido'; ok=false; }
+  if (!fp)      { document.getElementById('eFechaPrestamo').textContent  = 'Requerido'; ok=false; }
+  if (!fd)      { document.getElementById('eFechaDevolucion').textContent = 'Requerido'; ok=false; }
+  if (fd && fp && fd < fp) { document.getElementById('eFechaDevolucion').textContent = 'Debe ser posterior al préstamo'; ok=false; }
+  if (!ok) return;
+
+  const id = document.getElementById('fId').value;
+  if (id) {
+    const idx = prestamos.findIndex(p=>p.id==id);
+    if (idx>=0) Object.assign(prestamos[idx], {nivel,nombre,grado,seccion,libro,fechaPrestamo:fp,fechaDevolucion:fd,obs});
+    toast('Préstamo actualizado');
+  } else {
+    prestamos.push({id:Date.now(),nivel,nombre,grado,seccion,libro,fechaPrestamo:fp,fechaDevolucion:fd,obs,estado:'activo'});
+    toast('Préstamo registrado');
+  }
+  actualizarEstados(); guardarDatos(); cerrarModal(); filtrar(nivel);
+  if (paginaActual==='historial') filtrarHistorial();
+}
+
+function editar(id) { const p=prestamos.find(x=>x.id===id); if(p) abrirModal(p.nivel,p); }
+
+/* ── DEVOLUCIÓN ── */
+function abrirDev(id) {
+  devId = id;
+  const p = prestamos.find(x=>x.id===id);
+  document.getElementById('devMsg').textContent = `"${p.libro}" — ${p.nombre}`;
+  document.getElementById('devEstado').value = 'bueno';
+  document.getElementById('devObs').value = '';
+  document.getElementById('devOverlay').classList.add('open');
+}
+function cerrarDev() { document.getElementById('devOverlay').classList.remove('open'); devId=null; }
+function confirmarDev() {
+  const idx = prestamos.findIndex(p=>p.id===devId);
+  if (idx>=0) Object.assign(prestamos[idx],{estado:'devuelto',estadoLibro:document.getElementById('devEstado').value,obsDevolucion:document.getElementById('devObs').value,fechaDevolucionReal:new Date().toISOString().split('T')[0]});
+  guardarDatos(); cerrarDev(); toast('Devolución registrada');
+  filtrar('primaria'); filtrar('secundaria');
+  if (paginaActual==='historial') filtrarHistorial();
+}
+
+/* ── ELIMINAR ── */
+function pedirDel(id) { delId=id; document.getElementById('delOverlay').classList.add('open'); }
+function cerrarDel()  { document.getElementById('delOverlay').classList.remove('open'); delId=null; }
+function confirmarDel() {
+  const niv = (prestamos.find(p=>p.id===delId)||{}).nivel;
+  prestamos = prestamos.filter(p=>p.id!==delId);
+  guardarDatos(); cerrarDel(); toast('Préstamo eliminado');
+  if (niv) filtrar(niv);
+  if (paginaActual==='historial') filtrarHistorial();
+}
+
+/* ── TOAST ── */
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className='toast'; el.textContent=msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+['modalOverlay','devOverlay','delOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this){
+      if(id==='modalOverlay') cerrarModal();
+      else if(id==='devOverlay') cerrarDev();
+      else cerrarDel();
+    }
+  });
+});
+
+mostrarPagina('primaria');
+cargarDatos();
+</script>
+</body>
+</html>

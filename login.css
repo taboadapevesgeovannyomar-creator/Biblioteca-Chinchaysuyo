@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    /* Fondo oscuro basado en la barra lateral del sistema de biblioteca */
+    background: #0d172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+
+.welcome-section {
+    flex: 1;
+    color: #ffffff;
+    padding-left: 10px;
+}
+
+.welcome-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.welcome-section h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.welcome-section p {
+    max-width: 400px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #94a3b8;
+}
+
+
+/* FORMULARIO */
+
+.form-section {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 40px 35px;
+    border-radius: 12px; 
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    border-top: 4px solid #991b1b;
+}
+
+
+.brand-container {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.brand-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border: 2px solid #f1f5f9;
+}
+
+.brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+
+.brand-title {
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.brand-subtitle {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.input-group-custom {
+    margin-bottom: 18px;
+}
+
+.input-group-custom label {
+    display: block;
+    margin-bottom: 6px;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 16px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+    color: #1e293b;
+    background: #ffffff;
+}
+
+.input-wrapper input:focus {
+    border-color: #1e428a;
+    box-shadow: 0 0 0 3px rgba(30, 66, 138, 0.15);
+}
+
+.input-wrapper input::placeholder {
+    color: #94a3b8;
+}
+
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    color: #1e428a;
+    text-decoration: none;
+    font-size: 0.825rem;
+    margin-bottom: 22px;
+    font-weight: 600;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #2563eb;
+}
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: #1e428a; /* Color del botón "+ Nuevo préstamo" */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-login:hover {
+    background: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.btn-login i {
+    margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    .login-container {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .welcome-section {
+        padding: 0;
+    }
+
+    .welcome-icon {
+        margin: 0 auto 12px;
+    }
+
+    .welcome-section h1 {
+        font-size: 2.2rem;
+    }
+
+    .welcome-section p {
+        font-size: 0.95rem;
+    }
+
+    .form-section {
+        max-width: 100%;
+        padding: 30px 22px;
+    }
+}

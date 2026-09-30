@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Libros de Secundaria</title>
+
+    <!-- ICONOS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        /* =====================================================
+           ENCABEZADO
+        ====================================================== */
+
+        header {
+            background: #1e3a5f;
+            color: white;
+            padding: 25px 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-title i {
+            font-size: 35px;
+        }
+
+        .header-title h1 {
+            font-size: 26px;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.15);
+            padding: 11px 18px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+
+        /* =====================================================
+           CONTENEDOR PRINCIPAL
+        ====================================================== */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto 60px;
+        }
+
+
+        /* =====================================================
+           TITULO
+        ====================================================== */
+
+        .section-intro {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .section-intro h2 {
+            color: #1e3a5f;
+            margin-bottom: 8px;
+            font-size: 25px;
+        }
+
+        .section-intro p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           SUBTITULO DE CADA GRADO
+        ====================================================== */
+
+        .grade-section {
+            margin-bottom: 45px;
+        }
+
+        .grade-title {
+            background: #1e3a5f;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+        }
+
+        .grade-title h2 {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .grade-title p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+
+        /* =====================================================
+           GRID DE LIBROS
+        ====================================================== */
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+
+        /* =====================================================
+           TARJETA DEL LIBRO
+        ====================================================== */
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 7px 18px rgba(0,0,0,0.14);
+        }
+
+
+        /* =====================================================
+           PORTADA
+        ====================================================== */
+
+        .book-cover {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: #e8edf3;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .available {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #2e8b57;
+            color: white;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           CONTENIDO
+        ====================================================== */
+
+        .book-content {
+            padding: 20px;
+        }
+
+        .book-category {
+            display: inline-block;
+            color: #1e3a5f;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .book-content h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #222;
+        }
+
+        .author {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .author i {
+            margin-right: 6px;
+        }
+
+
+        /* =====================================================
+           PIE DE TARJETA
+        ====================================================== */
+
+        .book-footer {
+            border-top: 1px solid #eee;
+            padding-top: 13px;
+            margin-bottom: 15px;
+        }
+
+        .book-type {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .book-type i {
+            margin-right: 6px;
+        }
+
+
+        /* =====================================================
+           BOTON
+        ====================================================== */
+
+        .request-button {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            background: #1e3a5f;
+            color: white;
+            padding: 12px;
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        .request-button:hover {
+            background: #162c49;
+        }
+
+        .request-button i {
+            margin-right: 7px;
+        }
+
+
+        /* =====================================================
+           PIE DE PAGINA
+        ====================================================== */
+
+        footer {
+            background: #1e3a5f;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 50px;
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 700px) {
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .book-cover {
+                height: 400px;
+            }
+
+            .header-title h1 {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         ENCABEZADO
+    ====================================================== -->
+
+    <header>
+
+        <div class="header-content">
+
+            <div class="header-title">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+                <h1>
+                    Libros de Secundaria
+                </h1>
+
+            </div>
+
+
+            <!--
+                ESTE BOTON REGRESA A TU PAGINA PRINCIPAL.
+                Si tu archivo principal tiene otro nombre,
+                cambia "estudiantes.html".
+            -->
+
+            <a
+                href="estudiantes.html"
+                class="back-button">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Volver a la biblioteca
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENIDO
+    ====================================================== -->
+
+    <main class="container">
+
+
+        <!-- INTRODUCCION -->
+
+        <div class="section-intro">
+
+            <h2>
+                Libros de Secundaria
+            </h2>
+
+            <p>
+                Explora los libros disponibles organizados
+                por grado de secundaria.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             1° SECUNDARIA
+        ================================================== -->
+
+        <section class="grade-section">
+
+            <div class="grade-title">
+
+                <h2>
+                    1° Secundaria
+                </h2>
+
+                <p>
+                    2 libros de ejemplo
+                </p>
+
+            </div>
+
+
+            <div class="books-grid">
+
+
+                <!-- =========================================
+                     LIBRO 1° SECUNDARIA - 1
+                ========================================== -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=1°+Secundaria+1"
+                            alt="LIBRO 1° SECUNDARIA - 1">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            1° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 1° SECUNDARIA - 1
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 1° Secundaria - Libro 1
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =========================================
+                     LIBRO 1° SECUNDARIA - 2
+                ========================================== -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=1°+Secundaria+2"
+                            alt="LIBRO 1° SECUNDARIA - 2">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            1° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 1° SECUNDARIA - 2
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 1° Secundaria - Libro 2
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             2° SECUNDARIA
+        ================================================== -->
+
+        <section class="grade-section">
+
+            <div class="grade-title">
+
+                <h2>
+                    2° Secundaria
+                </h2>
+
+                <p>
+                    2 libros de ejemplo
+                </p>
+
+            </div>
+
+
+            <div class="books-grid">
+
+
+                <!-- LIBRO 2° SECUNDARIA - 1 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=2°+Secundaria+1"
+                            alt="LIBRO 2° SECUNDARIA - 1">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            2° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 2° SECUNDARIA - 1
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 2° Secundaria - Libro 1
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- LIBRO 2° SECUNDARIA - 2 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=2°+Secundaria+2"
+                            alt="LIBRO 2° SECUNDARIA - 2">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            2° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 2° SECUNDARIA - 2
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 2° Secundaria - Libro 2
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             3° SECUNDARIA
+        ================================================== -->
+
+        <section class="grade-section">
+
+            <div class="grade-title">
+
+                <h2>
+                    3° Secundaria
+                </h2>
+
+                <p>
+                    2 libros de ejemplo
+                </p>
+
+            </div>
+
+
+            <div class="books-grid">
+
+
+                <!-- LIBRO 3° SECUNDARIA - 1 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=3°+Secundaria+1"
+                            alt="LIBRO 3° SECUNDARIA - 1">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            3° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 3° SECUNDARIA - 1
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 3° Secundaria - Libro 1
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- LIBRO 3° SECUNDARIA - 2 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=3°+Secundaria+2"
+                            alt="LIBRO 3° SECUNDARIA - 2">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            3° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 3° SECUNDARIA - 2
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 3° Secundaria - Libro 2
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             4° SECUNDARIA
+        ================================================== -->
+
+        <section class="grade-section">
+
+            <div class="grade-title">
+
+                <h2>
+                    4° Secundaria
+                </h2>
+
+                <p>
+                    2 libros de ejemplo
+                </p>
+
+            </div>
+
+
+            <div class="books-grid">
+
+
+                <!-- LIBRO 4° SECUNDARIA - 1 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=4°+Secundaria+1"
+                            alt="LIBRO 4° SECUNDARIA - 1">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            4° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 4° SECUNDARIA - 1
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 4° Secundaria - Libro 1
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- LIBRO 4° SECUNDARIA - 2 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=4°+Secundaria+2"
+                            alt="LIBRO 4° SECUNDARIA - 2">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            4° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 4° SECUNDARIA - 2
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 4° Secundaria - Libro 2
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             5° SECUNDARIA
+        ================================================== -->
+
+        <section class="grade-section">
+
+            <div class="grade-title">
+
+                <h2>
+                    5° Secundaria
+                </h2>
+
+                <p>
+                    2 libros de ejemplo
+                </p>
+
+            </div>
+
+
+            <div class="books-grid">
+
+
+                <!-- LIBRO 5° SECUNDARIA - 1 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=5°+Secundaria+1"
+                            alt="LIBRO 5° SECUNDARIA - 1">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            5° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 5° SECUNDARIA - 1
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 5° Secundaria - Libro 1
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- LIBRO 5° SECUNDARIA - 2 -->
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <!-- CAMBIAR IMAGEN -->
+                        <img
+                            src="https://placehold.co/600x850?text=5°+Secundaria+2"
+                            alt="LIBRO 5° SECUNDARIA - 2">
+
+                        <span class="available">
+                            Disponible
+                        </span>
+
+                    </div>
+
+
+                    <div class="book-content">
+
+                        <span class="book-category">
+                            5° Secundaria
+                        </span>
+
+                        <!-- CAMBIAR TITULO -->
+                        <h3>
+                            LIBRO 5° SECUNDARIA - 2
+                        </h3>
+
+                        <!-- CAMBIAR AUTOR -->
+                        <p class="author">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            Autor 5° Secundaria - Libro 2
+
+                        </p>
+
+
+                        <div class="book-footer">
+
+                            <span class="book-type">
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Libro Online
+
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="#"
+                            class="request-button">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Lectura Online
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            Biblioteca Digital
+        </p>
+
+        <p>
+            Libros de Secundaria
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
